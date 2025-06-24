@@ -16,11 +16,13 @@
       "supportsTablet": true
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.skullicious.fogetz"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -28,6 +30,11 @@
     "plugins": [
       "expo-router"
     ],
-    "scheme": "expo"
+    "scheme": "expo",
+    "extra": {
+      "eas": {
+        "projectId": "31d2b83b-4eeb-4c77-8258-b28a2595d3aa"
+      }
+    }
   }
 }

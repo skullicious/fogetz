@@ -2,8 +2,12 @@ import { StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 import React from "react";
 import Button from "../components/ui/button";
+import { usePushNotifications } from "../hooks/usePushNotifications";
 
 const Home = () => {
+  const { expoPushToken, notification } = usePushNotifications();
+
+  const data = JSON.stringify(notification, undefined, 2);
   const messageHandler = async () => {
     try {
       const res = await fetch("http://10.0.2.2:3000/message", {
@@ -19,15 +23,14 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>FOGETZ</Text>
-      <Text>What?</Text>
-      <Text>Where?</Text>
-      <Text>When?</Text>
 
+      <Text>Token: {expoPushToken?.data}</Text>
+
+      <Text>Data: {data}</Text>
       <View style={styles.goCard}>
         <Button styles={styles} onPress={messageHandler}>
           <Text>Go!</Text>
         </Button>
-
         <Link href="/about" style={styles.link}>
           To about page
         </Link>

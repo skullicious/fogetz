@@ -37,6 +37,5 @@ yarn-error.*
 *.tsbuildinfo
 
 fogetz-firebase-adminsdk-fbsvc-18857b5859.json
-google-services.json
 /ios
 /android
