@@ -10,19 +10,22 @@ const RootLayout = () => {
   const theme = colorScheme ? Colors[colorScheme] : Colors.light;
 
   return (
-    <>
-      <StatusBar />
-      <Stack
-        screenOptions={{
-          headerStyle: { backgroundColor: theme.navBackground },
-          headerTintColor: "#333",
-        }}
-      >
-        <Stack.Screen name="index" options={{ title: "Home" }} />
-        <Stack.Screen name="about" options={{ title: "About" }} />
-      </Stack>
-      <Text>Footer</Text>
-    </>
+    <Stack>
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    </Stack>
+    // <>
+    //   <StatusBar />
+    //   <Stack
+    //     screenOptions={{
+    //       headerStyle: { backgroundColor: theme.navBackground },
+    //       headerTintColor: "#333",
+    //     }}
+    //   >
+    //     <Stack.Screen name="index" options={{ title: "Home" }} />
+    //     <Stack.Screen name="about" options={{ title: "About" }} />
+    //   </Stack>
+    //   <Text>Footer</Text>
+    // </>
   );
 };
 

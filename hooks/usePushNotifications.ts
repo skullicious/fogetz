@@ -29,8 +29,6 @@ export const usePushNotifications = (): PushNotificationState => {
   const [notification, setNotification] = useState<
     Notifications.Notification | undefined
   >();
-  console.log(expoPushToken, "EPT");
-  console.log(notification, "NOTIFICATION");
 
   const notificationListener = useRef<Notifications.Subscription>(null);
   const responseListener = useRef<Notifications.Subscription>(null);
@@ -38,23 +36,18 @@ export const usePushNotifications = (): PushNotificationState => {
   async function registerForPushNotificationsAsync() {
     let token;
     if (Device.isDevice) {
-      console.log("Is device!");
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
 
-      console.log("Existing status: ", existingStatus);
       if (existingStatus !== "granted") {
         const { status } = await Notifications.requestPermissionsAsync();
         finalStatus = status;
       }
-      console.log("Final status: ", finalStatus);
       if (finalStatus !== "granted") {
         alert("Failed to get push token for push notification");
         return;
       }
-
-      alert(`project Id: ${Constants.expoConfig?.extra?.eas.projectId}`);
 
       try {
         token = await Notifications.getExpoPushTokenAsync({
@@ -63,12 +56,10 @@ export const usePushNotifications = (): PushNotificationState => {
             Constants.easConfig?.projectId,
         });
 
-        alert(`token?: ${token}`);
+        //   alert(`token?: ${token}`);
       } catch (error: any) {
         console.log("Error in getting expo token: ", error);
       }
-
-      console.log("token in reg", token);
     } else {
       alert("Must be using a physical device for Push notifications");
     }
@@ -87,9 +78,26 @@ export const usePushNotifications = (): PushNotificationState => {
 
   useEffect(() => {
     console.log("UseEffect triggering");
-    registerForPushNotificationsAsync().then((token: any) => {
+    registerForPushNotificationsAsync().then(async (token: any) => {
       console.log("registring expo push token: ", token);
       setExpoPushToken(token);
+
+      try {
+        const response = await fetch(
+          "http://10.0.0.13:3000/users/registerExpoPushToken",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ expoPushToken: token }),
+          }
+        );
+
+        console.log("Response: ", response);
+      } catch (error: any) {
+        console.log("Error: ", error);
+      }
     });
 
     notificationListener.current =
